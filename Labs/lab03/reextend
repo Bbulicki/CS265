@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+# BRANDIN BULICKI
+# 4.20.18
+#
+# 
+#
+#
+#
+
+#Take in 2 file extensions
+#Rename all files that have the first extension with the second extension
+
+#If no file extensions are present
+if [ -z $1 ]
+ then
+  echo "Please input two file types after the function call"
+  exit 1;
+fi
+#If only one file extension is present
+if [ $# != 2 ]
+ then
+  echo "Please input a file type to change to"
+  exit 2;
+fi
+
+#Set the input for the file extensions
+fExt1=$1;
+fExt2=$2;
+
+#If both file extensions are present
+#Change extension for all files fitting that ending
+if [ $# == 2 ]
+ then
+  for file in *$fExt1
+   do
+    mv -- "$file" "${file%$fExt1}$fExt2"
+  done
+ exit 0;   
+fi  
+
+#EOP
+
+#Referenced "Linux in a Nutshell" by O'Reilly

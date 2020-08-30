@@ -1,0 +1,52 @@
+1.
+    (i) List - an abstract data type that represents a countable number of ordered values that may have duplicates in it
+   (ii) Stack - an abstract data type that is structured in a way that is last in first out.
+  (iii) Queue - an abstract data type that are stored in a definite order by the order of insertion. (first in first out)
+   (iv) Dictionary (Map) - an abstract data type that is made up of pairs (key, value), each key will appear at most once
+
+2. Given a sorted array with n items, at most the binary search will compare elements at most (log2 n) times.  This is because it will continue checking the mid point for whether element 'k' is higher or lower than l(e), essentially dividing the list by 2 each call.
+
+3. Given an array with n items, at most, linear search will compare elements n times.  This is because it will check each element in the list exactly once, until the element is found or there are no more elements in the array.
+
+4. Linear search would be preferable over the binary search for when the list is small.  For extremely small and simple lists, it would be easier to do linear search.  Additionally, for linked lists or similar data types, where you can not have "Random Access" the linear search is prefered.  Lastly, when there is no knowledge of data that could aid in searching.
+
+5. *#* Denotes the pivot |  [#] denotes former pivot that is now in the correct spot
+  
+              *84* 37 93 82 98 27 63 73 93 27 75 55 45 8
+            *37* 82 27 63 73 27 75 55 45 8 [84] *93* 98 93
+         *27* 27 8 [37] *73* 82 75 55 45 63 [84] [93] *98* 93
+   *8* [27] *27* [37] *55* 45 63 [73] *75* 82 [84] [93] *93* [98]
+ [8] [27] [27] [37] *45* [55] *63* [73] [75] *82* [84] [93] [93] [98]
+ [8] [27] [27] [37] [45] [55] [63] [73] [75] [82] [84] [93] [93] [98]
+
+6. L->3->26->06 
+ 
+7. L-> [13, [28, [24, [3,  None]]]]
+ 
+8. Since the in the first strcat concatnates a s, which is a pointer to buffer, the concatnate modifies buffer.  The second time s is its own copy of the buffer string.  Therefore, when s is modified, buffer is not modified along with s.
+
+9. 
+
+  [0]->
+  [1]->
+  [2]->
+  [3]-> [Cos:86] -> [Bob:38]
+  [4]-> [Jaga:24] -> [Kate:28] -> [Nash:11] -> [Vera:99]
+  [5]-> [Jesse:18] 
+  [6]->
+  [7]->
+
+10.
+   int find( char *key, int *p_ans ){
+    entry *i;
+    int h;
+    h = hash(key)
+
+    for (i = table[h]; i != NULL; i = i->next){
+     if (strcmp(key, i->key) == 0){
+      *p_ans = i->val;
+      return 1;
+     }
+    }
+    return 0; 
+   };

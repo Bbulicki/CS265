@@ -1,0 +1,112 @@
+#!/bin/bash
+#
+#  a1-top: lists directory contents into a xml file
+#
+#Brandin Bulicki
+#
+#
+#
+
+fType=""
+indexFiles=""
+reqFiles=""
+
+#Take optional arguements for the dir to process
+if [ $# = 0 ]
+ then
+  currentDir='.'
+else
+  currentDir='$1'
+fi
+
+#In each subdirectory (including the directory the script was called) place xml
+
+for dir in $(find $currentDir -type d)
+ do
+
+  ls $dir > $dir/tmp
+  sed -i 's/"\<tmp\">//' "$dir/tmp"  
+
+  touch $dir/dir.xml
+  echo '<?xml version="1.0" encoding="ISO-8859-1"?>' > $dir/dir.xml
+  echo '<direntry>' >> $dir/dir.xml
+
+
+
+
+  #if README exits then read to get files
+  if [ -e "$dir/README" ] 
+   then 
+     
+  #Use AWK to parse README
+    for readme in "$dir/README" 
+     do
+    
+  #If line starts with index output index file to xml
+  #Assumes index will be in the first line if it exists at all
+      awk -v FS=":" '{if ($1 == "index")
+       {print "\t<index>", "\n \t \t<file>" $2 "</file>" , "\n \t</index>"; exit}
+      }' $readme  >> $dir/dir.xml
+  
+  #Remove index file from fileDir     
+      indexFile=$(awk -v FS=":" '{if ($1 == "index")
+       {print $2 ; exit}}' $readme )
+    
+      if [ -z "$indexFile" ]
+       then
+        continue
+      else  
+       sed -i "s/\<$indexFile\>//" "$dir/tmp" 
+      fi
+     
+
+  #If line starts with required output required files to xml
+      awk -v FS=":" '{if ($1 == "required")
+       {print "\t<required>"
+       for(i=2; i<=NF; ++i){
+       print "\t \t<file>" $i "</file>"}     
+       print "\t</required>" }
+       }' $readme >> $dir/dir.xml
+  
+  
+  #Remove required files from fileDir 
+      for reqFile in $(awk -v FS=":" '{if ($1 == "required")
+       {for(i=2; i<=NF; ++i){
+       print $i}}}' $readme )
+      do  
+       if [ -z "$reqFile" ]
+        then
+         continue
+        else
+         sed -i "s/\<$reqFile\>//" "$dir/tmp"
+        fi
+      done
+   done
+  fi
+  #For files not in README add to dir.xml
+   sed -i 's/"\<dir.xml\>"//' "$dir/tmp"
+ 
+    echo -e "\t<other>" >> "$dir/dir.xml"
+    for files in $( awk '{print $1}' "$dir/tmp")
+     do
+      if [ -z $files ]
+       then 
+        continue
+      else
+        if [[ -d $files ]]
+         then 
+          type="dir"
+        else 
+         type="file"
+        fi 
+        echo -e "\t \t<"$type">" $files "</"$type">">> "$dir/dir.xml"  
+      fi
+    done
+    echo -e "\t</other>" >> "$dir/dir.xml"  
+    echo -e "</direntry>" >> "$dir/dir.xml" 
+  
+ rm $dir/tmp
+
+done
+
+#EOF   

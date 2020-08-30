@@ -1,0 +1,61 @@
+1. The difference between add() and addSuffix() is that add() adds a new prefix to the hash table and updates the prefix, while addSuffix adds a new suffix to the the hash table.  In addSuffx() the suffix will not change later.
+
+2. The function lookup() searches for the prefix and create if requested.  It returns a pointer if present or created, NULL if not.  The functions that call lookup are generate and add.
+
+3.         Prefix        |  Suffix
+   ----------------------|-----------
+         NULL  NULL      |   It's
+			NULL  It's      |    a
+			It's   a        |   new
+			  a   new       |   dawn
+			 new  dawn      |   NULL 
+
+	a. "It's" -> 3
+   b. "a"    -> 3
+	c. "new"  -> 3
+	d. "dawn" -> 2
+
+4. The advantage of this is that each sting is only allocated the exact amount of memory that is needed.  This will save space and time in the long run.
+
+5. The drawbacks to this is that you have to free each pointer when you are done with the data so that memory can be reallocated to other programs.
+
+6. 
+
+//Clean up statetab
+//Give the memory back (aka free the space)
+void cleanState(){
+
+	State *sp = NULL;
+	State *tmp = NULL;
+
+	for (int i = 0; i < NHASH; i++){
+		for (sp = statetab[i]; sp != NULL; sp = tmp){
+			tmp = sp->next;
+			free(sp);
+		}
+	}
+}
+
+7. My function works properly.  There were no difficulties.
+
+8. Since once a string has been freed, the program no longer has access to that memory space, it will return an error if attempting to free the same space twice.  Therefore we can make sure that each space is freed exactly once by interating by 1 to move to a different memory location and checking if the space is NULL before freeing.
+
+9. Prefixes are stored in a deque or a "double-ended que".  This allows us to pop from the front as well as the back, while being able to add to the back.  A vector allows for only adding from the back.
+
+10. A map serves as the dictionary.  "map<Prefix, vector<string> > statetab;
+
+11. The suffices are stored as a vector of strings.
+
+12. Using C++ instead of C allows us to use built in datatypes.  This allowed for us to not need to make a hash table and implementing it.
+
+13. The drawback to using C++ over C is that by using the built in Datatypes, there is less control over how they are implemented, causing for redundancies and leading to a slightly slower performance.
+
+14. The prefixes are stored as touples. "(w1, w2)"
+
+15. A dictionary serves as the dictionary, replacing the hash table.
+
+16. The suffices are stored in a list.
+
+17. Since everything is a reference in Python, there is no need to work with pointers, in terms of C++, where you would need to specify that they were pointers.  This can lead to writting the code with more ease.
+
+18. The drawback is that in C++ you gain multiple datatypes that you do not have in python.

@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+#Brandin Bulicki
+#4.20.18
+#
+#
+#
+#
+#
+
+#Look in the current directory for mp3 files
+#break into artist and Song 
+
+for file in *.mp3
+ do
+  artist=${file%%-*} #Return everything before -
+  song=${file##*-} #Return everything after -
+
+#If there is no directory
+#Create the apropriate Directory
+test -d "$artist" || mkdir $artist
+
+#Rename song as song
+mv $file $song
+
+#Move song to artist directory
+mv $song $artist
+
+done
+
+exit 0;
+
+#EOP
+
+#Used 'Linux in a Nutshell' as Reference 

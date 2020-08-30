@@ -1,0 +1,23 @@
+1.
+	Hide Implementation Details - The program should be implemented in a way that keeps it hidden from the user, and is set in a way that does not affect the user when changes are made.
+
+	Choose a small orthogonal set of primitives - For each task, there is only one function that completes that task.  Functions should not be overlapping.
+
+	Don't reach behing the user's back - There should be no suprises when running the program.  The interface should only do what it was expected to do, nothing more and nothing less.  If there are any unavoidable side effects, they should be disclosed to the user prior to running.
+
+	Do the same thing the same way everywhere - When programming, especially in a group, there should be a coherent flow/implementation keeping things similar and consistent.
+
+2.	The problems with the first implementation in C are the following cases are not handled properly:
+		(a)Commas within quotes
+		(b)Empty fields
+		(c)Escapted quotes
+
+3. The things that were improved in the first revision in C are that this revision is better equipped to handle commas within quotes and quotes within quotes.
+
+4. The first revision still has the issues of still not handling the empty fields correctly.
+	You cannot parse 2 different CSV files at the same time ...
+
+5.	The C++ implementation does not solve these issues.  The cpp implementation still does not handle the empty fields properly.
+
+6.	
+7.

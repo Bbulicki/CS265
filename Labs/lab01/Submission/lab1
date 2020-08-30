@@ -1,0 +1,37 @@
+1. Copied vimtutor into as vi_lab
+
+2. After doing the 'ls -l' it shows the two files that I copied (funny & hello.bash) and the permissions.
+
+3. When you "chmod 644 some_file" you give yourself read & write permissions, and give everyone else has only read.
+
+4. When you "chmod 755 some_file" you give yourself all permissions, and everyone else has read & execute permissions.
+
+5. After doing "chmod 644 funny" I can read the file.
+
+6. After doing "chmod 644 hello.bash" I can read the file.
+
+7. I was not successful in executing the file.  After the 644 command I was only given read & write access, not execute.
+
+8. One way to give myself execute permission on this file is to type "chmod 555 hello.bash.  This will give me full permissions with the file.  Another way to be able to execute this file, is to type "chmod 777 hello.bash" which will give me only to execute permission, no other permissions.
+
+9. There is an error when trying to save a change to funny.  This is because I do not have permission to edit the file, only read and execute.
+
+10. ls * - lists all of the files in the directory.
+    ls a* - lists all of the files that start with a in the directory.
+    ls *m* - lists all the files that has an m in the filename in the directory.
+    ls anno? - lists the file annoy 
+    ls annoy? - cannot access 'annoy?': No such file in directory
+
+11. When I try to save it says there is more than one file to edit
+
+12. echo Is a < b? --> -bash: b?: No such file or directory
+    echo "Is a < b?" --> Is a < b?
+    echo "\$USER is $USER" --> $USER is bjb366
+    echo '\$USER is $USER' --> \$USER is bjb366
+    echo "Today is `date`" --> Today is Fri Apr  6 20:55:45 EDT 2018
+    echo "Today is $(date)" --> Today is Fri Apr  6 20:55:45 EDT 2018
+    echo 'Today is `date`' --> Today is `date`
+    echo -e "Files that start w/e:n\n`ls e*`" --> ls: cannot access 'e*': No such file or directory
+                                                  Files that start w/e:
+
+

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+source bash_test_tools
+
+testInit(){
+
+	local expected actual
+
+	#Left != Right
+
+	expected= 1
+	run './assn4 init 15 = 16 0 0 0'
+
+	assertEquals \
+		"the result of '${actual}' was wrong" \
+		$expected "{result}"
+
+	#left = Right
+}
+
+#testPurchase(){
+
+#}
+
+#testChange(){
+
+#}
+
+#testReport(){
+	
+#}

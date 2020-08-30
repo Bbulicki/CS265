@@ -1,0 +1,29 @@
+1. The command returns all the files within my directory current directory 
+
+2. find . -type f -name "*.bash" -print
+
+3. The output was all the files that ended with .bash. Since it was just the one file that I added, all that was displayed was gotMe.bash
+
+4. The results were 97 499 2960.
+
+5. grep 'the ' breadIsDangerous.txt | wc -l 
+
+6. There is now a spellExample.bak.  This new file is actually the original file and the spellExample is the edited version.
+
+7. The output shows the the differences between the two files.  This tells us what went in, >, and what came out <.
+
+8. There is no output because the files are exactly the same.
+
+9. du -s * | sort -nr | head -n10 > 10_bigest_files
+   This command will create a document of the 10 largest files in my directory
+
+10. a)Returns the occurences of dough within the document breadIsDangerous.txt
+    b)Returns 0 because there are matches within the file
+    c)Returns nothing because there are no occurences within the file
+    d)Returns 1 because there are no matches within the file
+    e)Returns an error for no such file or directory
+    f)Returns 2 because the file does not exist
+
+11.1. I used git revert [commit tag] to recover the deleted items.  
+
+11.2. The commit keys will be exactly the same.

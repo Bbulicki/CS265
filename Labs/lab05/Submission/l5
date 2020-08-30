@@ -1,0 +1,72 @@
+1. Since the default output would be 1 for True and 0 for False, this can become confusing.  Also, the naming of not_eof would be better to be something that says it is the end of file and that is why the return is false. 
+
+2. The code becomes overcomplicated.  The code can much more simply be written as:
+
+int lessEqual (char *s, char *t){
+  return strcmp(s,t) <= 0;
+} 
+
+This gives the same return values, but it is easier to understand what is occuring. 
+
+3. This code is unreadable, hard to remember, and difficult to type.  
+
+4. a:
+      if ((c != 'y') && (c != 'Y'))
+       return;
+
+   b:
+      if (length >= BUFSIZE){
+       length = BUFSIZE;
+
+   c: 
+      flag = !flag;
+  
+   d: 
+      quote = (*line == "");
+
+   e:
+      bit = val & 1;
+
+5. The order of which the objects vert and ch are called does not guarentee the proper defining of the object.
+
+6. 1 1
+   1 2
+   2 1
+
+7. a:
+      if (!(istty(stdin)) && (istty(stdout)) && (istty(stderr))){
+       return 0;
+      }
+
+    b:
+       return retval;
+
+    c:
+       for (k = 0; k < 4; k++){
+        scanf(%1f", %dx);
+        x += dx;
+       }
+
+8.
+   for (int count = 0; count < total, ++count){
+    if (this.getName(count) == nametable.userName()){
+     return true;
+    }
+   }
+
+9. Since the c parameter is called more than once it may be evaluated more than once.  Also, since not everything is in parentheses, it may behave differently based on what its context is.
+
+10. #define FT2Metre   0.3048
+   #define Metre2FT   ( 1.0 / FT2Metre )
+   #define MI2FT      5280.0
+   #define MI2KM      (MI2FT * FT2Metre / 1000.0)
+   #define SQMI2SQKM  (MI2KM * MI2KM)
+
+11. a: 
+       The function is a void, thus it returns nothing, making the comment contradictory
+
+    b:
+       The commentgives no reference to n being greater than max.
+
+    c: 
+       Most of the comments are not needed or duplicated throughout the code.  The comments only refer to minor things that are occuring in the code and not explaining the thought behind the logic or anything greater than an increment.

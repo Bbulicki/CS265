@@ -1,0 +1,14 @@
+Program: a1-top
+Last Update: 5/4/18
+
+
+GENERAL NOTES
+--------------
+
+- Additional function calls found from recommended book: Linux in a Nutshell
+
+- Code Runs and outputs an xml in every directory, and now returns no errors
+
+- Code now outputs correctly
+
+- Final Push fixed issue that inhibited code from making dir.xml if there was no readme file

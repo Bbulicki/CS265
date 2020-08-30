@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+#Brandin Bulicki
+#CS265 - 002
+#Anagram Lab
+#Monday, April 30th, 2018
+#
+#
+#Demonstrates: Check for anagram words within an inputed file
+#
+#
+#
+
+#Check for the needed files
+#If there are no files output an error
+if [ $# = 0 ]
+ then 
+  echo "Please input one or more files after the function call"
+ exit 1
+else
+ for file in $1 
+  do
+
+#Use C Program sign to read the input file and produce an output file
+#Each line will contain the letters in the word sorted
+#Sort the keys produced by sign program
+#Use an awk program to collect all adjacent words with the same key
+ 
+  ./sign < $file | sort | awk -f squash.awk > out.tmp  
+
+#Count the number of words in each class
+#Sort the lines by count
+#Print the largest 10 anagram classes
+   echo " "
+   echo "----------Anagrams-in-"$file"-------------"
+   awk '{print NF " " $0 }' < out.tmp | sort -n | tail
+   echo "------------------------------------------"
+   echo " "
+   rm out.tmp
+ done
+fi
+
+#EOP

@@ -1,0 +1,323 @@
+#!/bin/bash
+
+
+checkCash(){
+
+	#check left is equal to right for purchase and init
+	#if no arguement is given, we assume it as 0
+
+	let "args = $#"
+
+	if [ $args -lt 3 ]
+		then 
+			return 1
+	elif [ $args -lt 4 ]
+		then
+			let ones=$3
+			let fives=0
+			let tens=0
+			let twenties=0
+	elif [ $args -lt 5 ]
+		then 
+			let ones=$3
+			let fives=$4
+			let tens=0
+			let twenties=0
+	elif [ $args -lt 6 ]
+		then
+			let ones=$3
+			let fives=$4
+			let tens=$5
+			let twenties=0
+	else
+		let ones=$3
+		let fives=$4
+		let tens=$5
+		let twenties=$6
+	fi
+
+	if [ $args -gt 2 ]
+		then
+			let "left = $1"
+			let "right = $ones + ( 5 * $fives ) + ( 10 * $tens ) + ( 20 * $twenties )"	
+
+			if [ $left == $right ] 
+				then
+					check=0	#Ok to initialize Drawer
+			elif [ $left -lt $right ]
+				then
+					check=1	#OK to purchase
+			else
+				check=2
+			fi
+	fi
+
+}
+
+init() {
+	touch "register"
+	purchased=0
+	
+	#Set up the register so that each one gets the same line
+	echo $purchased $left $ones $fives $tens $twenties > register
+	
+	return 0
+}
+
+giveChange() {
+	purchased=$(awk '{ print $1 }' "register")
+	ones=$[$dO + $p1]
+	fives=$[$dF + $p5]
+	tens=$[$dT + $p10]
+	twenties=$[$dTw + $p20]
+	total=$[ $ones + (5 * $fives) + (10 * $tens) + (20 * $twenties) ]
+
+
+	echo $purchased $total $ones $fives $tens $twenties > "register"
+}
+
+checkChange() {
+	if [ -f "register" ]
+		then
+		
+			#Check what change is needed
+
+			changeNeed=$[ $right - $left ]
+
+
+			#Check what is in the drawer
+			dtotal=$(awk '{ print $2 }' "register")
+			dO=$(awk '{ print $3 }' "register")
+			dF=$(awk '{ print $4 }' "register")
+			dT=$(awk '{ print $5 }' "register")
+			dTw=$(awk '{ print $6 }' "register")
+	
+			if [ $changeNeed -le $dtotal ]
+				then
+					
+					br=0 #This will be used to ensure that the correct change can be given
+
+					while [ $changeNeed != 0 ] && [ $br != 1 ]
+						do
+
+							change=$changeNeed
+							
+							if [ $changeNeed -ge 20 ] && [ $dTw != 0 ]
+								then 
+									nTw=$[ $changeNeed / 20 ]
+									if [ $nTw -ge $dTw ]
+										then
+											let "gTw = $dTw "
+											dTw=0
+									else
+										let "gTw = $nTw "
+										$dTw=$[ $dTw - $gTw ]
+									fi
+
+									changeNeed=$[ $change - $[ 20 * $gTw ] ]
+									
+							elif [ $changeNeed -ge 10 ] && [ $dT != 0 ]
+								then
+									nT=$[ $changeNeed / 10 ]
+									if [ $nT -ge $dT ]
+										then
+											let "gT = $dT "
+											dT=0
+									else
+										let "gT = $nT "
+										dT=$[ $dT - $gT ]
+									fi
+									
+									changeNeed=$[ $change - $[ 10 * $gT ] ]
+							
+							elif [ $changeNeed -ge 5 ] && [ $dT != 0 ]
+								then
+									nF=$[ $changeNeed / 5 ]
+									if [ $nF -ge $dF ]
+										then
+											gF=$dF
+											dF=0
+									else
+										gF=$nF
+										dF=$[ $dF - $gF ]
+									fi
+										
+									changeNeed=$[ $change - $[ 5 * $gF ] ]
+							
+							elif [ $changeNeed -ge 1 ] && [ $dO != 0 ]
+								then
+									nO=$changeNeed
+									if [ $nO -ge $dO ]
+										then
+											gO=$dO
+											dO=0
+									else
+										gO=$nO
+										dO=$[ $dO - $gO ]
+									fi
+
+									changeNeed=$[ $change - $gO ]
+							else
+								return 3
+							fi
+
+					done
+					if [ $1 == 'purchase' ]
+						then
+							purchase
+					else
+							giveChange
+					
+					fi	
+			else
+				return 3
+			fi
+	else
+		return 4
+	fi
+}	
+
+
+
+
+
+purchase() {
+					purchased=$(awk '{ print $1 }' "register")
+					purchased=$[ $purchased + $left ]
+
+					echo $purchased $[ $dO + $ones ] $[$dF + $fives] $[$dT + $tens] $[$dTw + $twenties] > "register"
+
+					echo $gO $gF $gT $gTw	
+
+}
+
+
+
+change() {
+	
+	p1=$1
+
+	if [ $2 != '=' ]
+		then
+			p5=$2
+			if [ $3 != '=' ]
+				then
+					p10=$3
+					if [ $4 != '=' ]
+						then
+							p20=$4
+							c1=$6
+							c5=$7
+							c10=$8
+							c20=$9
+					else
+						p20=0
+						c1=$5
+						c5=$6
+						c10=$7
+						c20=$8
+					fi
+			else
+				p10=0
+				p20=0
+				c1=$4
+				c5=$5
+				c10=$6
+				c20=$7
+			fi
+	else
+		p5=0
+		p10=0
+		p20=0
+		c1=$3
+		c5=$4
+		c10=$5
+		c20=$6
+		
+	fi
+
+	if [ -z $c5 ]
+		then
+			c5=0
+	fi
+	if [ -z $c10 ]
+		then
+			c10=0
+	fi
+	if [ -z $c20 ]
+		then
+			c20=0
+	fi
+
+	left=$[ $p1 + ( 5 * $p5 ) + ( 10 * $p10 ) + ( 20 * $p20 ) ]
+	right=$[ $c1 + ( 5 * $c5 ) + ( 10 * $c10 ) + ( 20 * $c20 ) ]
+
+	if [ $left == $right ]
+		then
+			checkChange change
+	else
+		return 2
+	fi	
+}
+
+report() {
+
+	#Check to make sure file exists
+
+
+	if [ -f "register" ]
+		then
+			
+			purchased=$(awk '{ print $1 }' "register")			
+			dOnes=$(awk '{ print $2 }' "register")
+			dFives=$(awk '{ print $3 }' "register")
+			dTens=$(awk '{ print $4 }' "register")
+			dTwenties=$(awk '{ print $5 }' "register")
+			total=$[ $dOnes + ( 5 * $dFives ) + ( 10 * $dTens ) + ( 20 * $dTwenties ) ]
+
+			
+			echo $purchased ":" $total "=" $dOnes $dFives $dTens $dTwenties
+	else
+		return 4
+	fi
+
+}
+
+
+main() {
+	if [ $# == 0 ]
+		then
+			return 1
+	else
+		if [ $1 == 'init' ]
+			then
+				checkCash $2 $3 $4 $5 $6 $7 $1
+				if [ $check -eq 0 ]
+					then
+						init
+				else 
+					return 2
+				fi
+		elif [ $1 == 'purchase' ]
+			then
+				checkCash $2 $3 $4 $5 $6 $7 $1
+				if [ $check -eq 0 ] || [ $check -eq 1 ] 
+					then 
+						checkChange $1
+				else
+					return 2
+				fi
+		elif [ $1 == 'change' ]
+			then
+				change $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+		elif [ $1 == 'report' ]
+			then
+				report 
+		else
+			return 1
+		fi
+	fi
+}
+
+#ten is the max number of args that would ever need to be supplied (ie. command (ones fives tens twenties) = (ones fives tens twenties)) 
+main $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
